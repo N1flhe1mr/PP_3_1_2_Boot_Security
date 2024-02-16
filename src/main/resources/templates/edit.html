@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <meta charset="UTF-8">
+    <title>edit user</title>
+    <style>
+        .button {
+            background-color: silver;
+            color: black;
+            padding: 1px 2px;
+            border: none;
+            text-decoration: none;
+            border-radius: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<form th:method="patch" th:action="@{/users/update(id=${user.getId()})}" th:object="${user}"
+    <p>
+        <input type="text" th:field="*{name}" id="name" placeholder="Enter your name"/>
+    </p>
+    <p>
+        <input type="text" th:field="*{surname}" id="surname" placeholder="Enter your surname"/>
+    </p>
+    <p>
+        <input type="text" th:field="*{age}" id="age" placeholder="Enter your age"/>
+    </p>
+    <input type="submit" value="update user" class="button"/>
+
+</body>
+</html>
