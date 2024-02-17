@@ -3,28 +3,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>list</title>
     <style>
         table, th, td {
-            border: 1px solid black;
+            border:  2px solid black;
             border-collapse: collapse;
             width: auto;
+            text-align: center;
         }
         th {
             background-color: lightgray;
         }
-        .button {
-            background-color: silver;
-            color: black;
-            padding: 1px 2px;
-            border: none;
-            text-decoration: none;
-            border-radius: 1px;
-        }
     </style>
 </head>
 <body>
-<h2>Users</h2>
+<h2>list of users</h2>
 <table>
     <thead>
     <tr>
@@ -32,6 +25,7 @@
         <th>name</th>
         <th>surname</th>
         <th>age</th>
+        <th>email</th>
         <th>action</th>
     </tr>
     </thead>
@@ -41,16 +35,27 @@
         <td th:text="${user.name}"></td>
         <td th:text="${user.surname}"></td>
         <td th:text="${user.age}"></td>
-        <td th:cellpadding="4">
-            <a th:href="@{/users/edit(id=${user.getId()})}" class="button">edit</a>
+        <td th:text="${user.email}"></td>
+        <td th:cellpadding="5">
+            <form th:action="@{/admin/users/edit/{id}(id=${user.getId()})}" method="get">
+                <button type="submit">Edit</button>
+            </form>
             &nbsp;
-            <a th:href="@{/users/delete(id=${user.getId()})}" class=button>delete</a>
+            <form th:action="@{/admin/users/delete/{id}(id=${user.getId()})}" method="get">
+                <button type="submit">Delete</button>
+            </form>
         </td>
     </tr>
     </tbody>
 </table>
 <hr>
-<a href="/users/add" class="button">add user</a>
+<input type="button" value="current user"
+       onclick="window.location.href='/user'"/>
 
+<input type="button" value="add user"
+       onclick="window.location.href='/admin/users/add'"/>
+
+<input type="button" value="logout"
+       onclick="window.location.href='/logout'"/>
 </body>
 </html>

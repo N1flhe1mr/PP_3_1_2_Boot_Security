@@ -11,12 +11,12 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
-public class UsersController {
+@RequestMapping("admin/users")
+public class AdminController {
     private final UserService userService;
 
     @Autowired
-    public UsersController(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -29,15 +29,21 @@ public class UsersController {
 
     @GetMapping("/add")
     public String newUser(@ModelAttribute("user") User user) {
+        user.setRoles(List.of());
         return "add";
     }
 
     @PostMapping("/create")
     public String createUser(@ModelAttribute("user") User user) {
-        if (user.getName().isEmpty() || user.getSurname().isEmpty() || user.getAge() == 0) {
+        if (user.getName().isEmpty() ||
+                user.getSurname().isEmpty() ||
+                user.getUsername().isEmpty() ||
+                user.getEmail().isEmpty() ||
+                user.getPassword().isEmpty() ||
+                user.getAge() == 0 ||
+                user.getRoles().isEmpty()) {
             return "redirect:/users/add";
         }
-
         userService.save(user);
         return "redirect:/users/list";
     }
@@ -53,6 +59,7 @@ public class UsersController {
         userService.save(user);
         return "redirect:/users/list";
     }
+
     @GetMapping("/delete")
     public String deleteUser(@RequestParam("id") long id) {
         userService.deleteUserById(id);

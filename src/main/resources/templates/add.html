@@ -4,19 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>add user</title>
-    <style>
-        .button {
-            background-color: silver;
-            color: black;
-            padding: 1px 2px;
-            border: none;
-            text-decoration: none;
-            border-radius: 1px;
-        }
-    </style>
 </head>
-<body>
-<form th:method="post" th:action="@{/users/create}" th:object="${user}"
+<form th:method="post" th:action="@{admin/users/create}" th:object="${user}"
 <p>
     <input type="text" th:field="*{name}" id="name" placeholder="Enter your name"/>
 </p>
@@ -24,8 +13,33 @@
     <input type="text" th:field="*{surname}" id="surname" placeholder="Enter your surname"/>
 </p>
 <p>
+    <input type="text" th:field="*{username}" id="username" placeholder="Enter your username"/>
+</p>
+<p>
+    <input type="text" th:field="*{password}" id="password" placeholder="Enter your password"/>
+</p>
+<p>
     <input type="text" th:field="*{age}" id="age" placeholder="Enter your age"/>
 </p>
-<input type="submit" value="add user" class="button"/>
-</body>
+<p>
+    <input type="text" th:field="*{email}" id="email" placeholder="Enter your email"/>
+</p>
+<br>
+<!--<label for="role">choose a role:</label>-->
+<!--<label>-->
+<!--    <select name="role">-->
+<!--        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>-->
+<!--    </select>-->
+<!--</label>-->
+<label>roles: </label>
+<div>
+    <label><input type="checkbox" name="roles" value="2"> Admin</label>
+    <label><input type="checkbox" name="roles" value="1"> User</label>
+</div>
+<hr>
+<input type="submit" value="add user" class="button" >
+
+<input type = "button" value = "logout"
+       onclick = "window.location.href = '/logout'"/>
+
 </html>

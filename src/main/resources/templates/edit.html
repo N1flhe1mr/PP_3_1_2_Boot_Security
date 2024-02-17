@@ -4,30 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <title>edit user</title>
-    <style>
-        .button {
-            background-color: silver;
-            color: black;
-            padding: 1px 2px;
-            border: none;
-            text-decoration: none;
-            border-radius: 1px;
-        }
-    </style>
 </head>
 <body>
 
-<form th:method="patch" th:action="@{/users/update(id=${user.getId()})}" th:object="${user}"
-    <p>
-        <input type="text" th:field="*{name}" id="name" placeholder="Enter your name"/>
-    </p>
-    <p>
-        <input type="text" th:field="*{surname}" id="surname" placeholder="Enter your surname"/>
-    </p>
-    <p>
-        <input type="text" th:field="*{age}" id="age" placeholder="Enter your age"/>
-    </p>
-    <input type="submit" value="update user" class="button"/>
+<form th:method="patch" th:action="@{admin/users/update(id=${user.getId()})}" th:object="${user}"
+<p>
+    <input type="text" th:field="*{name}" id="name" placeholder="Enter your name"/>
+</p>
+<p>
+    <input type="text" th:field="*{surname}" id="surname" placeholder="Enter your surname"/>
+</p>
+<p>
+    <input type="text" th:field="*{username}" id="username" placeholder="Enter your username"/>
+</p>
+<p>
+    <input type="text" th:field="*{password}" id="password" placeholder="Enter your password"/>
+</p>
+<p>
+    <input type="text" th:field="*{age}" id="age" placeholder="Enter your age"/>
+</p>
+<p>
+    <input type="text" th:field="*{email}" id="email" placeholder="Enter your email"/>
+</p>
+<hr>
+<input type="submit" value="update user" class="button"/>
+
+<input type = "button" value = "logout"
+       onclick = "window.location.href = '/logout'"/>
 
 </body>
 </html>
