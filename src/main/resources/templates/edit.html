@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <head>
     <meta charset="UTF-8">
     <title>edit user</title>
 </head>
 <body>
-
-<form th:method="patch" th:action="@{admin/users/update(id=${user.getId()})}" th:object="${user}"
-<p>
-    <input type="text" th:field="*{name}" id="name" placeholder="Enter your name"/>
-</p>
-<p>
-    <input type="text" th:field="*{surname}" id="surname" placeholder="Enter your surname"/>
-</p>
-<p>
-    <input type="text" th:field="*{username}" id="username" placeholder="Enter your username"/>
-</p>
-<p>
-    <input type="text" th:field="*{password}" id="password" placeholder="Enter your password"/>
-</p>
-<p>
-    <input type="text" th:field="*{age}" id="age" placeholder="Enter your age"/>
-</p>
-<p>
-    <input type="text" th:field="*{email}" id="email" placeholder="Enter your email"/>
-</p>
-<hr>
-<input type="submit" value="update user" class="button"/>
-
-<input type = "button" value = "logout"
-       onclick = "window.location.href = '/logout'"/>
-
+<h1>edit user</h1>
+<form th:action="@{/admin/users/update}" th:object="${user}" th:method="patch">
+    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" name="_method" value="PATCH" />
+    <div>
+        <input type="text" id="name" th:field="*{name}" required placeholder="Enter your name">
+    </div>
+    <div>
+        <input type="text" id="surname" th:field="*{surname}" required placeholder="Enter your surname">
+    </div>
+    <div>
+        <input type="text" id="username" th:field="*{username}" required placeholder="Enter your username">
+    </div>
+    <div>
+        <input type="password" id="password" th:field="*{password}" required placeholder="Enter your password">
+    </div>
+    <div>
+        <input type="email" id="email" th:field="*{email}" required placeholder="Enter your email">
+    </div>
+    <div>
+        <input type="number" id="age" th:field="*{age}" required placeholder="Enter your age">
+    </div>
+    <div>
+        <label><strong>Roles</strong>:</label>
+        <div th:each="role : ${user.getRoles()}">
+            <input type="checkbox" th:name="roles" th:value="${role.id}" id="role-${role.id}" th:checked="${false}" />
+            <label th:for="${'role-' + role.id}" th:text="${role.name}"></label>
+        </div>
+    </div>
+    &nbsp;
+    <div>
+        <input type="submit" value="update user" class="button">
+    </div>
+    &nbsp;
+    <div>
+        <input type="button" value="cancel"
+               onclick="window.location.href = '/admin/users/list'"/>
+    </div>
+    <hr>
+    <div>
+        <input type="button" value="logout"
+               onclick="window.location.href = '/logout'"/>
+    </div>
+</form>
 </body>
 </html>

@@ -6,19 +6,23 @@
     <title>current user</title>
 </head>
 <body>
-<h2>current user details</h2>
+<h1>current user details</h1>
 <p><strong>User ID:</strong>: <span th:text="${user.id}"></span></p>
 <p><strong>Name:</strong>: <span th:text="${user.name}"></span></p>
 <p><strong>Surname:</strong>: <span th:text="${user.surname}"></span></p>
 <p><strong>Email:</strong>: <span th:text="${user.email}"></span></p>
 <p><strong>Age:</strong>: <span th:text="${user.age}"></span></p>
 <p><strong>Username:</strong>: <span th:text="${user.username}"></span></p>
+<p><strong>Password:</strong>: <span th:text="${user.password}"></span></p>
 <p><strong>Roles</strong>: </p>
-<ul th:each="role : ${roles}">
-    <li><span th:text="${role.name}"></span></li>
+
+<ul th:each="role : ${user.roles}">
+    <li th:text="${role.name}"></li>
 </ul>
 
+<hr>
 <input type = "button" value = "logout"
        onclick = "window.location.href = '/logout'"/>
+
 </body>
 </html>

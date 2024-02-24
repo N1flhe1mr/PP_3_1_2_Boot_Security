@@ -1,15 +1,14 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "roles")
@@ -35,5 +34,23 @@ public class Role implements GrantedAuthority {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role role)) return false;
+
+        if (getId() != role.getId()) return false;
+        if (getName() != null ? !getName().equals(role.getName()) : role.getName() != null) return false;
+        return getUsers() != null ? getUsers().equals(role.getUsers()) : role.getUsers() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getUsers() != null ? getUsers().hashCode() : 0);
+        return result;
     }
 }

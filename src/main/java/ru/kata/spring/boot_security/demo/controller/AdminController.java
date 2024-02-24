@@ -5,13 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("admin/users")
 public class AdminController {
     private final UserService userService;
 
@@ -20,21 +21,46 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping("/list")
+    @GetMapping("/admin/users/list")
     public String getUsers(ModelMap model) {
         List<User> users = userService.getUsers();
         model.addAttribute("users", users);
         return "list";
     }
 
-    @GetMapping("/add")
-    public String newUser(@ModelAttribute("user") User user) {
-        user.setRoles(List.of());
+    @GetMapping("/admin/users/edit")
+    public String editUser(@RequestParam("id") long id, ModelMap model) {
+        User user = userService.findUserById(id);
+        user.setRoles(userService.getRoles());
+        model.addAttribute("user", user);
+        return "edit";
+    }
+
+    @GetMapping("/admin/users/add")
+    public String newUser(ModelMap model) {
+        User user = new User();
+        user.setRoles(userService.getRoles());
+        model.addAttribute("user", user);
         return "add";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/admin/users/create")
     public String createUser(@ModelAttribute("user") User user) {
+        if (user.getName().isEmpty() ||
+                user.getSurname().isEmpty() ||
+                user.getUsername().isEmpty() ||
+                user.getEmail().isEmpty() ||
+                user.getPassword().isEmpty() ||
+                user.getAge() == 0  ||
+                user.getRoles().isEmpty()) {
+            return "redirect:admin/users/add";
+        }
+        userService.save(user);
+        return "redirect:/admin/users/list";
+    }
+
+    @PatchMapping("/admin/users/update")
+    public String updateUser(@ModelAttribute("user") User user) {
         if (user.getName().isEmpty() ||
                 user.getSurname().isEmpty() ||
                 user.getUsername().isEmpty() ||
@@ -42,27 +68,16 @@ public class AdminController {
                 user.getPassword().isEmpty() ||
                 user.getAge() == 0 ||
                 user.getRoles().isEmpty()) {
-            return "redirect:/users/add";
+            return "redirect:/admin/users/add";
         }
+
         userService.save(user);
-        return "redirect:/users/list";
+        return "redirect:/admin/users/list";
     }
 
-    @GetMapping("/edit")
-    public String editUser(@RequestParam("id") long id, ModelMap model) {
-        model.addAttribute("user", userService.findUserById(id));
-        return "edit";
-    }
-
-    @PatchMapping("/update")
-    public String updateUser(@ModelAttribute("user") User user) {
-        userService.save(user);
-        return "redirect:/users/list";
-    }
-
-    @GetMapping("/delete")
+    @GetMapping("/admin/users/delete")
     public String deleteUser(@RequestParam("id") long id) {
         userService.deleteUserById(id);
-        return "redirect:/users/list";
+        return "redirect:/admin/users/list";
     }
 }

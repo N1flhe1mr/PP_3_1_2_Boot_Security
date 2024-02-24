@@ -24,7 +24,6 @@ public class UserController {
     public String getUserDetails(ModelMap model, Principal principal) {
         User user = userService.findUserByUsername(principal.getName());
         model.addAttribute("user", user);
-        model.addAttribute("roles", user.getRoles());
         return "user";
     }
 }
